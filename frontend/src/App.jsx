@@ -106,7 +106,14 @@ export default function EmployeeGrid() {
   };
 
   const columnDefs = [
-    { field: "id", headerName: "ID", width: 100 ,sortable: true, filter: true },
+    // { field: "id", headerName: "ID", width: 100 ,sortable: true, filter: true },
+    {
+    headerName: "ID",
+    valueGetter: (params) => params.node.rowIndex + 1, // Auto-increment ID
+    width: 100,
+    sortable: false,
+    filter: false
+  },
     { field: "name", headerName: "Name", flex: 1, sortable: true, filter: true },
     { field: "position", headerName: "Position", flex: 1, sortable: true, filter: true },
     { field: "department", headerName: "Department", flex: 1, sortable: true, filter: true },
@@ -117,6 +124,7 @@ export default function EmployeeGrid() {
       sortable: true,
       valueFormatter: (p) => (p.value === null || p.value === undefined || p.value === "" ? "-" : `₹${p.value}`)
     },
+     
     {
       headerName: "Actions",
       width: 170,
@@ -147,6 +155,9 @@ export default function EmployeeGrid() {
         onSubmit={handleSubmit} 
         className="mb-4 grid grid-cols-1 sm:grid-cols-5 gap-2"
       >
+      <label className="sm:col-span-5 font-semibold text-gray-700 mb-1">
+        Add New Employee
+      </label>
         <input 
           className="border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
           placeholder="Name *"
@@ -208,13 +219,14 @@ export default function EmployeeGrid() {
         </button>
       </div>
 
-      <div className="ag-theme-alpine h-[480px]">
+    <div className="ag-theme-alpine h-[480px]">
         <AgGridReact
           ref={gridRef}
           rowData={employees}
           columnDefs={columnDefs}
-          pagination
-          paginationPageSize={20}
+          theme="legacy"
+          // pagination
+          // paginationPageSize={20}
           animateRows
         />
       </div>
